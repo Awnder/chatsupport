@@ -24,11 +24,8 @@ export default function Home() {
       body: JSON.stringify([ ...history, {role: "user", parts: [{text: message}]} ])
     })
 
-    const data = await response.json() // returns a json object
-    console.log(data)
-    //console.log(JSON.parse(data).message)
+    const data = await response.json()
 
-    //setHistory((history) => [ ...history, {role: "model", parts: [{text: JSON.parse(data).message}] }])
     setHistory((history) => [ ...history, {role: "model", parts: [{text: data}] }])
   }
 
