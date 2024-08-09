@@ -1,19 +1,17 @@
 import { NextResponse } from "next/server"
 const { GoogleGenerativeAI } = require("@google/generative-ai")
-
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENERATIVE_AI_API_KEY)
 
 const model = genAI.getGenerativeModel({ 
     model: "gemini-1.5-flash",
-    systemInstruction: "You are a chatbot for the startup software tech company Headstarter. Use a friendly, supportive, and encouraging tone. Ensure explanations are clear and easy to understand",
+    systemInstruction: "You are a chatbot for the startup software tech company Headstarter. Use a friendly tone. Ensure explanations are concise and easy to understand.",
 })
 
 async function startChat(history) {
     return model.startChat({
         history: history,
         generationConfig: { 
-            maxOutputTokens: 50,
-            //responseMimeType: "application/json"
+            maxOutputTokens: 8000,
         },
     })
 }
@@ -22,14 +20,6 @@ export async function POST(req) {
     const history = await req.json()
     const userMsg = history[history.length - 1]
 
-    // history.forEach(element => {
-    //     // console.log(element["role"])
-    //     // console.log(element["content"])
-    //     console.log(element)
-    // });
-
-    // console.log(userMsg.parts[0].text)
-    // console.log(typeof(userMsg.parts[0].text))
     try {
         //const userMsg = await req.json()
         const chat = await startChat(history)
@@ -51,29 +41,4 @@ export async function POST(req) {
     //     //console.log(chunkText);
     //     text += chunkText;
     // }
-    
-
 }
-
-// export async function continueConversation(history) {
-//     const stream = createStreamableValue();
-//     const model = google('models/gemini-1.5-flash-latest');
-
-//     (async () => {
-//         const { textStream } = await streamText({
-//             model: model,
-//             messages: history,
-//         });
-
-//         for await (const text of textStream) {
-//             stream.update(text);
-//         }
-    
-//         stream.done();
-//     })().then(() => {});
-
-//     return {
-//         messages: history,
-//         newMessage: stream.value,
-//     };
-// }

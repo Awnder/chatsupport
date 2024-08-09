@@ -4,12 +4,7 @@ import { Box, Stack, TextField, Button, Typography } from "@mui/material"
 import { useState } from "react";
 
 export default function Home() {
-  const [history, setHistory] = useState([
-    // {
-    //   role: "model",
-    //   content: "Hi! I'm the Headstarter support assistant. How can I help you today?",
-    // },
-  ])
+  const [history, setHistory] = useState([])
   const firstMessage = "Hi there! I'm the Headstarter virtual assistant. How can I help?"
   
   const [message, setMessage] = useState("")
